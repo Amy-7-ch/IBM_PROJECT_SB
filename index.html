@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>StudyBuddy - AI Chat Interface</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+<div class="app">
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <button class="sidebar-brand">
+                <svg class="brand-logo" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M30 25 C30 20, 35 18, 40 20 L48 23 L48 70 L40 67 C35 65, 30 67, 30 72 Z" fill="url(#sidebarGrad1)" opacity="0.9"/>
+                    <path d="M70 25 C70 20, 65 18, 60 20 L52 23 L52 70 L60 67 C65 65, 70 67, 70 72 Z" fill="url(#sidebarGrad2)" opacity="0.9"/>
+                    <rect x="47" y="20" width="6" height="52" fill="url(#sidebarGrad3)" rx="1"/>
+                    <circle cx="42" cy="45" r="2.5" fill="#1E293B"/>
+                    <circle cx="58" cy="45" r="2.5" fill="#1E293B"/>
+                    <path d="M45 52 Q50 56, 55 52" stroke="#1E293B" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+                    <defs>
+                        <linearGradient id="sidebarGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#A78BFA;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#C4B5FD;stop-opacity:1" />
+                        </linearGradient>
+                        <linearGradient id="sidebarGrad2" x1="100%" y1="0%" x2="0%" y2="100%">
+                            <stop offset="0%" style="stop-color:#86EFAC;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#6EE7B7;stop-opacity:1" />
+                        </linearGradient>
+                        <linearGradient id="sidebarGrad3" x1="0%" y1="0%" x2="0%" y2="100%">
+                            <stop offset="0%" style="stop-color:#6366F1;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#8B5CF6;stop-opacity:1" />
+                        </linearGradient>
+                    </defs>
+                </svg>
+                <span class="studybuddy-title">StudyBuddy</span>
+            </button>
+            <button class="filter-btn" onclick="showSidebarMenu(event)" title="Menu">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+
+        <!-- Flip Clock with Seconds -->
+        <div class="flip-clock">
+            <div class="flip-unit">
+                <div class="flip-card" id="hoursTens">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">0</div>
+                        <div class="flip-card-back">0</div>
+                    </div>
+                </div>
+                <div class="flip-card" id="hoursOnes">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">0</div>
+                        <div class="flip-card-back">0</div>
+                    </div>
+                </div>
+            </div>
+            <div class="flip-separator">:</div>
+            <div class="flip-unit">
+                <div class="flip-card" id="minutesTens">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">0</div>
+                        <div class="flip-card-back">0</div>
+                    </div>
+                </div>
+                <div class="flip-card" id="minutesOnes">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">0</div>
+                        <div class="flip-card-back">0</div>
+                    </div>
+                </div>
+            </div>
+            <div class="flip-separator">:</div>
+            <div class="flip-unit">
+                <div class="flip-card" id="secondsTens">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">0</div>
+                        <div class="flip-card-back">0</div>
+                    </div>
+                </div>
+                <div class="flip-card" id="secondsOnes">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">0</div>
+                        <div class="flip-card-back">0</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="search-box">
+            <i class="fas fa-search"></i>
+            <input type="text" placeholder="Search" id="searchInput">
+        </div>
+
+        <div class="sidebar-content">
+            <!-- Folders Section -->
+            <div class="section-header">
+                <span>Folders</span>
+                <div class="section-actions">
+                    <button class="icon-btn-sm" onclick="showCreateFolderModal()" title="Create folder">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                    <button class="icon-btn-sm" title="More options">
+                        <i class="fas fa-ellipsis"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="folders-list" id="foldersList"></div>
+
+            <!-- Chats Section -->
+            <div class="section-header">
+                <span>Chats</span>
+                <button class="icon-btn-sm">
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+            </div>
+
+            <div class="chats-list" id="chatsList"></div>
+        </div>
+
+        <button class="new-chat-btn" onclick="startNewChat()">
+            <span class="new-chat-text">New chat</span>
+            <div class="new-chat-icon">
+                <i class="fas fa-plus"></i>
+                <span class="sparkle sparkle-1">✨</span>
+                <span class="sparkle sparkle-2">✨</span>
+                <span class="sparkle sparkle-3">✨</span>
+            </div>
+        </button>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="chat-area" id="chatArea">
+            <!-- Welcome Screen -->
+            <div class="welcome-container" id="welcomeContainer">
+                <div class="welcome-logo">
+                    <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Book pages with shadow effect -->
+                        <path d="M25 20 C25 15, 30 12, 35 15 L48 22 L48 75 L35 68 C30 65, 25 68, 25 75 Z" fill="url(#welcomeGradient1)" opacity="0.95"/>
+                        <path d="M75 20 C75 15, 70 12, 65 15 L52 22 L52 75 L65 68 C70 65, 75 68, 75 75 Z" fill="url(#welcomeGradient2)" opacity="0.95"/>
+                        
+                        <!-- Center binding -->
+                        <rect x="47" y="18" width="6" height="60" fill="url(#welcomeGradient3)" rx="2"/>
+                        
+                        <!-- Cute smiley face -->
+                        <circle cx="40" cy="48" r="3.5" fill="#1E293B"/>
+                        <circle cx="60" cy="48" r="3.5" fill="#1E293B"/>
+                        <path d="M42 58 Q50 64, 58 58" stroke="#1E293B" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+                        
+                        <!-- Highlight/shine effect on pages -->
+                        <path d="M30 25 L38 28 L38 70 L30 67 Z" fill="white" opacity="0.15"/>
+                        <path d="M70 25 L62 28 L62 70 L70 67 Z" fill="white" opacity="0.15"/>
+                        
+                        <!-- Gradients -->
+                        <defs>
+                            <linearGradient id="welcomeGradient1" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#A78BFA;stop-opacity:1" />
+                                <stop offset="50%" style="stop-color:#C4B5FD;stop-opacity:1" />
+                                <stop offset="100%" style="stop-color:#DDD6FE;stop-opacity:1" />
+                            </linearGradient>
+                            <linearGradient id="welcomeGradient2" x1="100%" y1="0%" x2="0%" y2="100%">
+                                <stop offset="0%" style="stop-color:#6EE7B7;stop-opacity:1" />
+                                <stop offset="50%" style="stop-color:#86EFAC;stop-opacity:1" />
+                                <stop offset="100%" style="stop-color:#BBF7D0;stop-opacity:1" />
+                            </linearGradient>
+                            <linearGradient id="welcomeGradient3" x1="0%" y1="0%" x2="0%" y2="100%">
+                                <stop offset="0%" style="stop-color:#6366F1;stop-opacity:1" />
+                                <stop offset="50%" style="stop-color:#8B5CF6;stop-opacity:1" />
+                                <stop offset="100%" style="stop-color:#A855F7;stop-opacity:1" />
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                </div>
+                <h1>How can I help you today?</h1>
+                <p class="welcome-subtitle">Your intelligent study companion. Ask me anything and I'll provide detailed, helpful responses.</p>
+
+                <div class="feature-cards">
+                    <div class="feature-card" onclick="useSuggestion('Create saved prompt templates for faster responses')">
+                        <i class="fas fa-bookmark"></i>
+                        <div class="feature-text">
+                            <h3>Saved Prompt Templates</h3>
+                            <p>Users save and reuse prompt templates for faster responses.</p>
+                        </div>
+                    </div>
+                    <div class="feature-card" onclick="useSuggestion('How do I select different media types?')">
+                        <i class="fas fa-image"></i>
+                        <div class="feature-text">
+                            <h3>Media Type Selection</h3>
+                            <p>Users select media type for tailored interactions.</p>
+                        </div>
+                    </div>
+                    <div class="feature-card" onclick="useSuggestion('Can you communicate in multiple languages?')">
+                        <i class="fas fa-language"></i>
+                        <div class="feature-text">
+                            <h3>Multilingual Support</h3>
+                            <p>Choose language for better interaction.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chat Messages Container -->
+            <div class="messages-container" id="messagesContainer" style="display: none;"></div>
+        </div>
+
+        <div class="input-container">
+            <div class="input-wrapper">
+                <button class="input-icon-btn" title="StudyBuddy">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+                <input type="text" id="messageInput" placeholder="Type your prompt here..." />
+                <button class="input-icon-btn" onclick="toggleVoiceRecognition()" title="Voice input" id="voiceBtn">
+                    <i class="fas fa-microphone"></i>
+                </button>
+                <button class="send-btn" id="sendBtn" onclick="sendMessage()">
+                    <i class="fas fa-arrow-up"></i>
+                </button>
+            </div>
+            <div class="disclaimer">
+                StudyBuddy can make mistakes. Consider checking important information.
+            </div>
+        </div>
+    </main>
+</div>
+
+<!-- Mobile Toggle -->
+<button class="mobile-toggle" id="mobileToggle">
+    <i class="fas fa-bars"></i>
+</button>
+
+<!-- Create Folder Modal -->
+<div class="modal" id="createFolderModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>Create New Folder</h3>
+            <button class="close-modal" onclick="closeModal('createFolderModal')">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="modal-body">
+            <input type="text" id="folderNameInput" placeholder="Folder name" class="modal-input">
+            <div class="color-picker">
+                <span>Choose color:</span>
+                <div class="color-options">
+                    <button class="color-option" data-color="blue" style="background: #4a9eff"></button>
+                    <button class="color-option" data-color="purple" style="background: #a855f7"></button>
+                    <button class="color-option" data-color="orange" style="background: #f97316"></button>
+                    <button class="color-option" data-color="green" style="background: #22c55e"></button>
+                    <button class="color-option" data-color="red" style="background: #ef4444"></button>
+                    <button class="color-option" data-color="yellow" style="background: #eab308"></button>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn-secondary" onclick="closeModal('createFolderModal')">Cancel</button>
+            <button class="btn-primary" onclick="createFolder()">Create</button>
+        </div>
+    </div>
+</div>
+
+<!-- Rename Chat Modal -->
+<div class="modal" id="renameChatModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>Rename Conversation</h3>
+            <button class="close-modal" onclick="closeModal('renameChatModal')">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="modal-body">
+            <input type="text" id="chatNameInput" placeholder="Conversation name" class="modal-input">
+        </div>
+        <div class="modal-footer">
+            <button class="btn-secondary" onclick="closeModal('renameChatModal')">Cancel</button>
+            <button class="btn-primary" onclick="renameChat()">Rename</button>
+        </div>
+    </div>
+</div>
+
+<!-- Sidebar Menu (3 horizontal lines) -->
+<div class="context-menu" id="sidebarMenu">
+    <button class="context-menu-item" onclick="showSettings()">
+        <i class="fas fa-cog"></i>
+        <span>Settings</span>
+    </button>
+    <button class="context-menu-item" onclick="exportAllChats()">
+        <i class="fas fa-download"></i>
+        <span>Export All Chats</span>
+    </button>
+    <button class="context-menu-item" onclick="importChats()">
+        <i class="fas fa-upload"></i>
+        <span>Import Chats</span>
+    </button>
+    <button class="context-menu-item" onclick="clearAllData()">
+        <i class="fas fa-trash"></i>
+        <span>Clear All Data</span>
+    </button>
+    <button class="context-menu-item" onclick="showAbout()">
+        <i class="fas fa-info-circle"></i>
+        <span>About StudyBuddy</span>
+    </button>
+</div>
+
+<!-- Folder Options Menu -->
+<div class="context-menu" id="folderContextMenu">
+    <button class="context-menu-item" onclick="renameFolderAction()">
+        <i class="fas fa-pen"></i>
+        <span>Rename</span>
+    </button>
+    <button class="context-menu-item" onclick="deleteFolderAction()">
+        <i class="fas fa-trash"></i>
+        <span>Delete</span>
+    </button>
+</div>
+
+<!-- Chat Options Menu -->
+<div class="context-menu" id="chatOptionsMenu">
+    <button class="context-menu-item" onclick="showRenameModal()">
+        <i class="fas fa-pen"></i>
+        <span>Rename</span>
+    </button>
+    <button class="context-menu-item" onclick="moveChatToFolder()">
+        <i class="fas fa-folder"></i>
+        <span>Move to folder</span>
+    </button>
+    <button class="context-menu-item" onclick="deleteCurrentChat()">
+        <i class="fas fa-trash"></i>
+        <span>Delete</span>
+    </button>
+</div>
+
+<!-- Notification Toast -->
+<div class="toast" id="toast"></div>
+
+<!-- StudyBuddy Robot Assistant -->
+<div class="robot-container" id="robotContainer">
+    <div class="robot" id="robot">
+        <!-- Robot Head with Screen -->
+        <div class="robot-head">
+            <div class="head-top-panel"></div>
+            <div class="screen-face">
+                <div class="eye left-eye">
+                    <div class="eye-shine"></div>
+                </div>
+                <div class="eye right-eye">
+                    <div class="eye-shine"></div>
+                </div>
+            </div>
+            <div class="head-side-circle left-circle"></div>
+            <div class="head-side-circle right-circle"></div>
+        </div>
+
+        <!-- Robot Body -->
+        <div class="robot-body">
+            <div class="body-glow-ring"></div>
+            <div class="body-panel"></div>
+            <div class="body-bottom-curve"></div>
+        </div>
+
+        <!-- Left Arm with Card -->
+        <div class="robot-arm left-arm">
+            <div class="arm-shoulder"></div>
+            <div class="arm-segment">
+                <div class="hologram-card">
+                    <div class="card-glow"></div>
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Arm -->
+        <div class="robot-arm right-arm">
+            <div class="arm-shoulder"></div>
+            <div class="arm-segment"></div>
+        </div>
+
+        <!-- Hover Effect Base -->
+        <div class="hover-effect">
+            <div class="hover-glow"></div>
+            <span class="particle p1"></span>
+            <span class="particle p2"></span>
+            <span class="particle p3"></span>
+            <span class="particle p4"></span>
+        </div>
+    </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
